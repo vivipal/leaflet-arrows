@@ -26,6 +26,7 @@
       arrowheadClosingLine: false, // should a closing third line be drawn?
       arrowheadDegree: 155, // degree of arrowhead
       clickableWidth: 10, // defines the width in pixels of the "phantom" path to capture click events on a line
+      reverse: false, // should the arrow be reversed ?
 
       //optional: popupContent: function(data) {},
 
@@ -143,13 +144,11 @@
         this.addLayer(circle);
 
       } else {
-        var theLine = [
-          this._data.latlng,
-          this._calculateEndPoint(
-            this._data.latlng,
-            this._data.distance, this._data.angle
-          )
-        ];
+
+        var startPoint = this._data.latlng
+        var endPoint = this._calculateEndPoint(startPoint,this._data.distance, this._data.angle)
+        var theLine = this.options.reverse ?  [endPoint,startPoint] : [startPoint,endPoint];
+
         var theArrow = this._calculateArrowArray(theLine[1]);
 
         var backgroundPathOption = L.Util.setOptions({}, this.pathOptions);
@@ -272,6 +271,7 @@
       // calculates the Array for the arrow
       // latlng is the position, where the arrow is added
       var degree = this._data.angle;
+      if (this.options.reverse==true){ degree+=180; }
 
       if (latlng.length !== undefined) {
         latlng = new L.LatLng(latlng);
