@@ -27,6 +27,7 @@
       arrowheadDegree: 155, // degree of arrowhead
       clickableWidth: 10, // defines the width in pixels of the "phantom" path to capture click events on a line
       reverse: false, // should the arrow be reversed ?
+      offset: 0,
 
       //optional: popupContent: function(data) {},
 
@@ -145,7 +146,7 @@
 
       } else {
 
-        var startPoint = this._data.latlng
+        var startPoint = this._calculateEndPoint(this._data.latlng,this.options.offset, this._data.angle)
         var endPoint = this._calculateEndPoint(startPoint,this._data.distance, this._data.angle)
         var theLine = this.options.reverse ?  [endPoint,startPoint] : [startPoint,endPoint];
 
